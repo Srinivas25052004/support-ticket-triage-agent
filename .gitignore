@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Environment variables
+.env
+
+# VS Code
+.vscode/
+
+# Generated data
+data/results.csv
+
+# Temporary uploads (if used)
+uploads/
+
+# OS files
+.DS_Store
+Thumbs.db

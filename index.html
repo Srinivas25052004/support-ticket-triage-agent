@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>SupportIQ - AI Ticket Intelligence Platform</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css"
+        rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link
+        rel="stylesheet"
+        href="/static/style.css">
+
+</head>
+
+<body>
+
+<div class="container py-4">
+
+    <!-- Header -->
+
+    <div class="header text-center mb-5">
+
+        <h1 class="display-5 fw-bold">
+
+            🤖 SupportIQ
+
+        </h1>
+
+        <p class="lead">
+
+            AI Ticket Intelligence Platform
+
+        </p>
+
+        <small>
+
+            Powered by Groq Llama 3
+
+        </small>
+
+    </div>
+
+    <!-- Dashboard -->
+
+    <div class="row mb-4">
+
+        <div class="col-md-3">
+
+            <div class="card-box text-center">
+
+                <h6>📋 Tickets</h6>
+
+                <h2>{{stats.total}}</h2>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card-box text-center">
+
+                <h6>🔥 High Priority</h6>
+
+                <h2>{{stats.high}}</h2>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card-box text-center">
+
+                <h6>⭐ Avg Confidence</h6>
+
+                <h2>{{stats.average_confidence}}%</h2>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card-box text-center">
+
+                <h6>📂 Authentication</h6>
+
+                <h2>{{stats.authentication}}</h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Analyze Form -->
+
+    <form
+        id="ticketForm"
+        action="/analyze"
+        method="post">
+
+        <h3 class="mb-3">
+
+            <i class="bi bi-chat-dots-fill"></i>
+
+            Analyze Single Ticket
+
+        </h3>
+
+        <div class="mb-3">
+
+            <label class="form-label">
+
+                Subject
+
+            </label>
+
+            <input
+                class="form-control"
+                type="text"
+                name="subject"
+                required>
+
+        </div>
+
+        <div class="mb-4">
+
+            <label class="form-label">
+
+                Description
+
+            </label>
+
+            <textarea
+                class="form-control"
+                rows="6"
+                name="body"
+                required></textarea>
+
+        </div>
+
+        <button
+            id="analyzeBtn"
+            class="btn btn-ai">
+
+            🚀 Analyze Ticket
+
+        </button>
+
+    </form>
+
+    <hr class="my-5">
+
+    <!-- Batch Upload -->
+
+    <form
+        action="/upload"
+        method="post"
+        enctype="multipart/form-data">
+
+        <h3 class="mb-3">
+
+            <i class="bi bi-upload"></i>
+
+            Batch CSV Upload
+
+        </h3>
+
+        <input
+            class="form-control mb-3"
+            type="file"
+            name="file"
+            accept=".csv"
+            required>
+
+        <button
+            class="btn btn-success">
+
+            📤 Upload & Analyze CSV
+
+        </button>
+
+    </form>
+
+    {% if upload_message %}
+
+    <div class="alert alert-info mt-4">
+
+        {{upload_message}}
+
+    </div>
+
+    {% endif %}
+
+    {% if result %}
+
+    <div class="result-card mt-5">
+
+        <h2>
+
+            🤖 AI Analysis
+
+        </h2>
+
+        <div class="row mt-4">
+
+            <div class="col-md-6">
+
+                <div class="card-box">
+
+                    <h5>📂 Category</h5>
+
+                    <h4>{{result.category}}</h4>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <div class="card-box">
+
+                    <h5>🔥 Urgency</h5>
+
+                    <h4>{{result.urgency}}</h4>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <div class="card-box">
+
+                    <h5>👨‍💻 Team</h5>
+
+                    <h4>{{result.team}}</h4>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <div class="card-box">
+
+                    <h5>😊 Sentiment</h5>
+
+                    <h4>{{result.sentiment}}</h4>
+
+                </div>
+
+            </div>
+                    </div>
+
+        <div class="mt-4">
+
+            <h5>
+
+                ⭐ Confidence
+
+            </h5>
+
+            <div class="progress">
+
+                <div
+                    class="progress-bar bg-primary"
+                    role="progressbar"
+                    style="width: {{result.confidence}}%;"
+                    aria-valuenow="{{ result.confidence }}"
+                    aria-valuemin="0"
+                    aria-valuemax="100">
+
+                    {{ result.confidence }}%
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card-box mt-4">
+
+            <h5>
+
+                📝 AI Summary
+
+            </h5>
+
+            <p>
+
+                {{ result.summary }}
+
+            </p>
+
+        </div>
+
+        <div class="card-box mt-4">
+
+            <h5>
+
+                💡 AI Reason
+
+            </h5>
+
+            <p>
+
+                {{ result.reason }}
+
+            </p>
+
+        </div>
+
+        <div class="mt-4">
+
+            {% if result.needs_human_review %}
+
+            <div class="alert alert-danger">
+
+                🔴 Human Review Required
+
+            </div>
+
+            {% else %}
+
+            <div class="alert alert-success">
+
+                🟢 Ready for Auto Resolution
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+    <hr class="my-5">
+
+    <!-- Dashboard Analytics -->
+
+    <h2 class="mb-4">
+
+        📊 Ticket Analytics
+
+    </h2>
+
+    <div class="row">
+
+        <div class="col-md-4">
+
+            <div class="card-box text-center">
+
+                <h5>💳 Billing</h5>
+
+                <h2>{{ stats.billing }}</h2>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card-box text-center">
+
+                <h5>⚙ Technical</h5>
+
+                <h2>{{ stats.technical }}</h2>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card-box text-center">
+
+                <h5>📄 General</h5>
+
+                <h2>{{ stats.general }}</h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <hr class="my-5">
+
+    <!-- Recent Tickets -->
+
+    <h2>
+
+        📋 Recent Tickets
+
+    </h2>
+
+    <div class="table-responsive">
+
+        <table class="table table-dark table-hover align-middle">
+
+            <thead>
+
+                <tr>
+
+                    <th>Subject</th>
+                    <th>Category</th>
+                    <th>Urgency</th>
+                    <th>Confidence</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for ticket in recent %}
+
+                <tr>
+
+                    <td>{{ ticket.Subject }}</td>
+
+                    <td>{{ ticket.Category }}</td>
+
+                    <td>{{ ticket.Urgency }}</td>
+
+                    <td>{{ ticket.Confidence }}%</td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <div class="text-center mt-5">
+
+        <a
+            href="/download"
+            class="btn btn-success btn-lg">
+
+            <i class="bi bi-download"></i>
+
+            Download Results CSV
+
+        </a>
+
+    </div>
+
+</div>
+
+<script src="/static/script.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
