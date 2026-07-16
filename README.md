@@ -1,58 +1,54 @@
-# 🤖 SupportIQ - AI Ticket Intelligence Platform
+# 🤖 Support Ticket Triage Agent
 
-An AI-powered support ticket analysis system built with **FastAPI**, **Groq Llama 3**, **Bootstrap**, and **Python**.
+An AI-powered Support Ticket Triage Agent built using **FastAPI**, **Groq Llama 3**, **Python**, and **Bootstrap**.
 
-SupportIQ automatically analyzes customer support tickets, classifies them into categories, predicts urgency, assigns the correct support team, detects sentiment, generates summaries, and supports batch CSV processing.
+The application automatically analyzes incoming support tickets, classifies them into categories, predicts urgency, assigns the appropriate support team, provides a confidence score, detects sentiment, generates AI summaries, and supports batch CSV processing.
 
 ---
 
 # 🚀 Features
 
 - AI-powered ticket classification
-- Ticket urgency prediction
-- Automatic team assignment
-- AI-generated ticket summary
-- Sentiment analysis
-- Human review recommendation
-- Batch CSV ticket analysis
+- Urgency prediction (High / Medium / Low)
+- Automatic team routing
+- Confidence score for every prediction
+- AI-generated summary and reasoning
+- Sentiment detection
+- Human review recommendation for uncertain cases
+- Batch CSV ticket processing
 - Dashboard analytics
 - Recent ticket history
 - CSV download
-- Modern responsive UI
 
 ---
 
 # 🛠 Tech Stack
 
-## Frontend
-
+### Frontend
 - HTML5
 - CSS3
 - Bootstrap 5
 - JavaScript
 
-## Backend
-
+### Backend
 - FastAPI
 - Jinja2
 
-## AI
-
+### AI
 - Groq API
-- Llama 3.3 70B
+- Llama 3.3 70B Versatile
 
-## Data
-
+### Data Processing
 - Pandas
 - CSV
 
 ---
 
-# 📂 Folder Structure
-
-Support-Ticket-Triage-Agent/
+# 📂 Project Structure
 
 ```
+support-ticket-triage-agent/
+│
 ├── app.py
 ├── agent.py
 ├── analytics.py
@@ -62,19 +58,24 @@ Support-Ticket-Triage-Agent/
 ├── config.py
 ├── requirements.txt
 ├── README.md
+├── .env.example
+├── .gitignore
 │
 ├── data/
-│   ├── results.csv
-│   └── sample_tickets.csv
+│   ├── sample_tickets.csv
+│   └── results.csv
 │
-├── uploads/
+├── screenshots/
+│   ├── dashboard.png
+│   ├── single-analysis.png
+│   └── batch-upload.png
 │
 ├── static/
 │   ├── style.css
 │   └── script.js
 │
-├── templates/
-│   └── index.html
+└── templates/
+    └── index.html
 ```
 
 ---
@@ -84,13 +85,13 @@ Support-Ticket-Triage-Agent/
 Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/SupportIQ.git
+git clone https://github.com/Srinivas25052004/support-ticket-triage-agent.git
 ```
 
-Go to the project
+Navigate to the project
 
 ```bash
-cd SupportIQ
+cd support-ticket-triage-agent
 ```
 
 Install dependencies
@@ -99,19 +100,19 @@ Install dependencies
 pip install -r requirements.txt
 ```
 
-Create a `.env`
+Create a `.env` file
 
 ```text
-GROQ_API_KEY=YOUR_API_KEY
+GROQ_API_KEY=YOUR_GROQ_API_KEY
 ```
 
-Run
+Run the application
 
 ```bash
 python -m uvicorn app:app --reload
 ```
 
-Open
+Open the application
 
 ```
 http://127.0.0.1:8000
@@ -119,52 +120,132 @@ http://127.0.0.1:8000
 
 ---
 
-# 🖥 Screenshots
+# 📥 Sample Input
+
+A sample dataset is included in:
+
+```
+data/sample_tickets.csv
+```
+
+The file contains realistic customer support tickets covering:
+
+- Authentication
+- Billing
+- Technical
+- Account
+- Feature Request
+- General
+
+---
+
+# 📤 Sample Output
+
+Processed routing decisions are generated in:
+
+```
+data/results.csv
+```
+
+Each output contains:
+
+- Category
+- Urgency
+- Assigned Team
+- Confidence Score
+- AI Summary
+- Sentiment
+- Human Review Recommendation
+
+---
+
+# 🖼 Screenshots
 
 ## Dashboard
 
-(Add screenshot)
+![Dashboard](screenshots/dashboard.png)
 
-## Ticket Analysis
+## Single Ticket Analysis
 
-(Add screenshot)
+![Single Ticket Analysis](screenshots/single-analysis.png)
 
-## Batch CSV Upload
+## Batch CSV Processing
 
-(Add screenshot)
+![Batch CSV Processing](screenshots/batch-upload.png)
+
+---
+
+# 🎯 Decision Boundary
+
+The agent predicts a confidence score for every ticket.
+
+- Tickets with high confidence are automatically routed to the predicted support team.
+- Tickets with low confidence or ambiguous content are flagged for **Human Review**.
+- Routing decisions are based on the predicted category:
+
+| Category | Assigned Team |
+|----------|---------------|
+| Authentication | Identity Team |
+| Billing | Billing Team |
+| Technical | Technical Team |
+| General | Support Team |
+| Feature Request | Product Team |
 
 ---
 
 # 📊 AI Output
 
-The AI predicts
+For every support ticket, the agent predicts:
 
-- Category
+- Ticket Category
 - Urgency
 - Assigned Team
-- Confidence
-- Summary
+- Confidence Score
+- AI Summary
 - Sentiment
-- Human Review
+- Human Review Recommendation
 
 ---
 
-# 📈 Future Improvements
+# ⚖ Tradeoffs
 
-- Email integration
-- Database support
+This implementation was designed to be simple, modular, and easy to evaluate.
+
+Design choices:
+
+- FastAPI for lightweight REST application development.
+- Groq Llama 3.3 70B for fast and accurate ticket classification.
+- CSV storage instead of a database to simplify deployment and review.
+- Modular architecture separating AI logic, analytics, services, and utilities.
+
+With more development time, the following improvements could be added:
+
+- Database integration (SQLite/PostgreSQL)
+- Interactive analytics charts
 - User authentication
-- Admin dashboard
-- REST API
-- Charts
 - Docker deployment
+- Asynchronous batch processing
+- Email/Helpdesk integration
 
 ---
 
 # 👨‍💻 Author
 
-Srinivasa H N
+**Srinivasa H N**
 
-BE Artificial Intelligence & Machine Learning
+Bachelor of Engineering (Artificial Intelligence & Machine Learning)
 
-```
+---
+
+# Assessment Deliverables
+
+This repository includes:
+
+- ✅ Runnable FastAPI application
+- ✅ Public source code
+- ✅ Setup instructions
+- ✅ Sample support tickets
+- ✅ Sample routing output
+- ✅ Decision boundary explanation
+- ✅ Tradeoff notes
+- ✅ Screenshots demonstrating the application
